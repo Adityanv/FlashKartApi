@@ -1,31 +1,25 @@
-package com.FlashKart.FlashKartApi.model;
+package com.FlashKart.FlashKartApi.dto;
 
 import com.FlashKart.FlashKartApi.enums.Category;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductResponseDTO {
     private Integer id;
     private String name;
     private String description;
-    @Enumerated(EnumType.STRING)
     private Category category;
     private BigDecimal price;
     private Integer stock;
-    private String emoji;
-    @Column(name="low_stock_threshold")
     private Integer lowStockThreshold;
+    private String emoji;
+    private BigDecimal salePrice;
 
-    public Product() {
+    public ProductResponseDTO() {
     }
 
-    public Product(String name, String description, Category category, BigDecimal price, Integer stock, Integer lowStockThreshold, String emoji) {
+    public ProductResponseDTO(Integer id, String name, String description, Category category, BigDecimal price, Integer stock, Integer lowStockThreshold, String emoji, BigDecimal salePrice) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.category = category;
@@ -33,14 +27,7 @@ public class Product {
         this.stock = stock;
         this.lowStockThreshold = lowStockThreshold;
         this.emoji = emoji;
-    }
-
-    public String getEmoji() {
-        return emoji;
-    }
-
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
+        this.salePrice = salePrice;
     }
 
     public Integer getId() {
@@ -97,5 +84,21 @@ public class Product {
 
     public void setLowStockThreshold(Integer lowStockThreshold) {
         this.lowStockThreshold = lowStockThreshold;
+    }
+
+    public String getEmoji() {
+        return emoji;
+    }
+
+    public void setEmoji(String emoji) {
+        this.emoji = emoji;
+    }
+
+    public BigDecimal getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(BigDecimal salePrice) {
+        this.salePrice = salePrice;
     }
 }

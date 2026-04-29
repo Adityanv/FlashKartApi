@@ -1,54 +1,29 @@
-package com.FlashKart.FlashKartApi.model;
+package com.FlashKart.FlashKartApi.dto;
 
 import com.FlashKart.FlashKartApi.enums.Category;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "products")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class ProductRequestDTO {
     private String name;
     private String description;
-    @Enumerated(EnumType.STRING)
+    private String emoji;
     private Category category;
     private BigDecimal price;
     private Integer stock;
-    private String emoji;
-    @Column(name="low_stock_threshold")
     private Integer lowStockThreshold;
 
-    public Product() {
-    }
-
-    public Product(String name, String description, Category category, BigDecimal price, Integer stock, Integer lowStockThreshold, String emoji) {
+    public ProductRequestDTO(String name, String description, String emoji, Category category, BigDecimal price, Integer stock, Integer lowStockThreshold) {
         this.name = name;
         this.description = description;
+        this.emoji = emoji;
         this.category = category;
         this.price = price;
         this.stock = stock;
         this.lowStockThreshold = lowStockThreshold;
-        this.emoji = emoji;
     }
 
-    public String getEmoji() {
-        return emoji;
-    }
-
-    public void setEmoji(String emoji) {
-        this.emoji = emoji;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public ProductRequestDTO() {
     }
 
     public String getName() {
@@ -65,6 +40,14 @@ public class Product {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getEmoji() {
+        return emoji;
+    }
+
+    public void setEmoji(String emoji) {
+        this.emoji = emoji;
     }
 
     public Category getCategory() {
