@@ -27,12 +27,12 @@ public class FlashSale {
     public FlashSale() {
     }
 
-    public FlashSale(Product product, Integer discountPercent, BigDecimal salePrice, Integer saleStock, LocalDateTime saleTime, LocalDateTime endTime, SaleStatus status, LocalDateTime createdAt) {
+    public FlashSale(Product product, Integer discountPercent, BigDecimal salePrice, Integer saleStock, LocalDateTime startTime, LocalDateTime endTime, SaleStatus status, LocalDateTime createdAt) {
         this.product = product;
         this.discountPercent = discountPercent;
         this.salePrice = salePrice;
         this.saleStock = saleStock;
-        this.startTime = saleTime;
+        this.startTime = startTime;
         this.endTime = endTime;
         this.status = status;
         this.createdAt = createdAt;

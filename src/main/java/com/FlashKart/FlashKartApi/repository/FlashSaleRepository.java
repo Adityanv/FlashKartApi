@@ -5,6 +5,7 @@ import com.FlashKart.FlashKartApi.enums.SaleStatus;
 import com.FlashKart.FlashKartApi.model.FlashSale;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,9 @@ public interface FlashSaleRepository extends JpaRepository<FlashSale, Integer> {
     @Query("SELECT f FROM FlashSale f WHERE f.status = :status")
     List<FlashSale> findByStatus(SaleStatus status);
 
+    @Query("SELECT f FROM FlashSale f JOIN FETCH f.product")
+    List<FlashSale> findAllWithProduct();
+
     //Used by Scheduler to find sales to activate
     @Query("SELECT f FROM FlashSale f WHERE f.status = :status AND f.startTime <= :now")
     List<FlashSale> findByStatusAndStartTimeLessThanEqual(SaleStatus status, LocalDateTime now);
@@ -23,6 +27,9 @@ public interface FlashSaleRepository extends JpaRepository<FlashSale, Integer> {
     //Used By Scheduler to Find Sales and End it
     @Query("SELECT f FROM FlashSale f WHERE f.status = :status AND f.endTime <= :now")
     List<FlashSale> findByStatusAndEndTimeLessThanEqual(SaleStatus status, LocalDateTime now);
+
+    @Query("SELECT f FROM FlashSale f JOIN FETCH f.product WHERE f.status = :status")
+    List<FlashSale> findByStatusWithProduct(@Param("status") SaleStatus status);
 
     FlashSale findByProductId(Integer id);
 }
