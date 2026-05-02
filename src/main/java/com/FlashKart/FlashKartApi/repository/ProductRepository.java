@@ -2,6 +2,7 @@ package com.FlashKart.FlashKartApi.repository;
 
 import com.FlashKart.FlashKartApi.enums.Category;
 import com.FlashKart.FlashKartApi.model.Product;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
