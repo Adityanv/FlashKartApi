@@ -1,43 +1,37 @@
-package com.FlashKart.FlashKartApi.model;
+package com.FlashKart.FlashKartApi.dto;
 
 import com.FlashKart.FlashKartApi.enums.OrderStatus;
-import com.FlashKart.FlashKartApi.enums.SaleStatus;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "orders")
-public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class OrderResponseDTO {
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Product product;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Nullable
-    private FlashSale flashSale;
+    private Integer productId;
+    private String productName;
     private String customerName;
     private Integer quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
-    @Enumerated(EnumType.STRING)
     private OrderStatus status;
+    @Nullable
+    private Integer flashSaleId;
     private LocalDateTime createdAt;
 
-    public Order() {
+    public OrderResponseDTO() {
     }
 
-    public Order(Product product, @Nullable FlashSale flashSale, String customerName, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice, OrderStatus status, LocalDateTime createdAt) {
-        this.product = product;
-        this.flashSale = flashSale;
+    public OrderResponseDTO(Integer id, Integer productId, String productName, String customerName, Integer quantity, BigDecimal unitPrice, BigDecimal totalPrice, OrderStatus status, Integer flashSaleId, LocalDateTime createdAt) {
+        this.id = id;
+        this.productId = productId;
+        this.productName = productName;
         this.customerName = customerName;
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.totalPrice = totalPrice;
         this.status = status;
+        this.flashSaleId = flashSaleId;
         this.createdAt = createdAt;
     }
 
@@ -49,21 +43,20 @@ public class Order {
         this.id = id;
     }
 
-    public Product getProduct() {
-        return product;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    @Nullable
-    public FlashSale getFlashSale() {
-        return flashSale;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setFlashSale(@Nullable FlashSale flashSale) {
-        this.flashSale = flashSale;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public String getCustomerName() {
@@ -104,6 +97,14 @@ public class Order {
 
     public void setStatus(OrderStatus status) {
         this.status = status;
+    }
+
+    public Integer getFlashSaleId() {
+        return flashSaleId;
+    }
+
+    public void setFlashSaleId(Integer flashSaleId) {
+        this.flashSaleId = flashSaleId;
     }
 
     public LocalDateTime getCreatedAt() {

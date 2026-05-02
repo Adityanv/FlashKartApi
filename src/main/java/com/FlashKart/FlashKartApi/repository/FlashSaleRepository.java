@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FlashSaleRepository extends JpaRepository<FlashSale, Integer> {
@@ -32,4 +33,6 @@ public interface FlashSaleRepository extends JpaRepository<FlashSale, Integer> {
     List<FlashSale> findByStatusWithProduct(@Param("status") SaleStatus status);
 
     FlashSale findByProductId(Integer id);
+
+    Optional<FlashSale> findByProductIdAndStatus(Integer productId, SaleStatus saleStatus);
 }
