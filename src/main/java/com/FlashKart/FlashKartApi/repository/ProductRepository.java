@@ -26,4 +26,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
             "(:category IS NULL OR p.category = :category) AND " +
             "(:search IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :search, '%')))")
     List<Product> findBySearchAndCategory(@Param("search") String search, @Param("category") Category category);
+
+    @Query("SELECT p FROM Product p WHERE p.stock < p.lowStockThreshold")
+    List<Product> getAllLowStockProducts();
 }

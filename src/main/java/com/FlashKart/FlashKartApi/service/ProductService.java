@@ -3,20 +3,23 @@ package com.FlashKart.FlashKartApi.service;
 import com.FlashKart.FlashKartApi.config.CacheNames;
 import com.FlashKart.FlashKartApi.dto.ProductRequestDTO;
 import com.FlashKart.FlashKartApi.dto.ProductResponseDTO;
+import com.FlashKart.FlashKartApi.dto.StockUpdateRequestDTO;
 import com.FlashKart.FlashKartApi.enums.Category;
 import com.FlashKart.FlashKartApi.model.FlashSale;
 import com.FlashKart.FlashKartApi.model.Product;
 import com.FlashKart.FlashKartApi.repository.FlashSaleRepository;
 import com.FlashKart.FlashKartApi.repository.ProductRepository;
-import org.jspecify.annotations.Nullable;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -57,5 +60,22 @@ public class ProductService {
 
     public void deleteProductById(Integer id) {
         productRepository.deleteById(id);
+    }
+
+    public List<ProductResponseDTO> getAllLowStockProducts() {
+        List<Product> lowStockProducts = productRepository.getAllLowStockProducts();
+        List<ProductResponseDTO> allProducts = new ArrayList<>();
+        for(Product p : lowStockProducts){
+            FlashSale sale = flashSaleRepository.findByProductId(p.getId());
+            ProductResponseDTO lowStockProduct = new ProductResponseDTO(p.getId(), p.getName(), p.getDescription(), p.getCategory(), p.getPrice(), p.getStock(), p.getLowStockThreshold(), p.getEmoji(), sale.getSalePrice());
+            allProducts.add(lowStockProduct);
+        }
+        return allProducts;
+    }
+
+    @Transactional
+    public void restockProduct(Integer id, StockUpdateRequestDTO stockUpdateRequestDTO) {
+        Product p = productRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
+        p.setStock(p.getStock() + stockUpdateRequestDTO.getQuantity());
     }
 }
